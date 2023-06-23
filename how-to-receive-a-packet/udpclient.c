@@ -28,7 +28,7 @@ struct state
 	struct stddev stddev_packet;
 };
 
-long gettid() { return syscall(SYS_gettid); }
+__pid_t gettid() { return syscall(SYS_gettid); }
 
 #define PKT_SIZE 32
 
@@ -69,7 +69,7 @@ void thread_loop(void *userdata)
 
 		for (;; packet_no++) {
 			memset(send_buf, 0, sizeof(send_buf));
-			snprintf(send_buf, sizeof(send_buf), "%i-%li-%lu",
+			snprintf(send_buf, sizeof(send_buf), "%i-%i-%lu",
 				 getpid(), gettid(), packet_no);
 
 			uint64_t t0 = realtime_now(), t1 = 0, tp = 0;
